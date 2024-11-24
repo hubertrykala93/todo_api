@@ -1,0 +1,26 @@
+[
+  {
+    "model": "tasks.taskpriority",
+    "pk": 4,
+    "fields": {
+      "name": "High",
+      "slug": "high"
+    }
+  },
+  {
+    "model": "tasks.taskpriority",
+    "pk": 5,
+    "fields": {
+      "name": "Medium",
+      "slug": "medium"
+    }
+  },
+  {
+    "model": "tasks.taskpriority",
+    "pk": 6,
+    "fields": {
+      "name": "Low",
+      "slug": "low"
+    }
+  }
+]

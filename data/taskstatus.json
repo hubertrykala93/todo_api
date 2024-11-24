@@ -1,0 +1,26 @@
+[
+  {
+    "model": "tasks.taskstatus",
+    "pk": 1,
+    "fields": {
+      "name": "Pending",
+      "slug": "pending"
+    }
+  },
+  {
+    "model": "tasks.taskstatus",
+    "pk": 2,
+    "fields": {
+      "name": "In Progress",
+      "slug": "in-progress"
+    }
+  },
+  {
+    "model": "tasks.taskstatus",
+    "pk": 3,
+    "fields": {
+      "name": "Completed",
+      "slug": "completed"
+    }
+  }
+]
