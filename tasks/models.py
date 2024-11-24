@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 class TaskStatus(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True, null=True)
 
     class Meta:
@@ -21,7 +21,7 @@ class TaskStatus(models.Model):
 
 
 class TaskPriority(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True, null=True)
 
     class Meta:
