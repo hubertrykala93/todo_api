@@ -20,8 +20,9 @@ class TaskStatusListCreateAPIView(ListCreateAPIView):
 
         return Response(
             data={
-                "success": "Task Statuses retrieved successfully.",
-                "objects": serializer.data,
+                "message": "Task Statuses retrieved successfully.",
+                "success": True,
+                "data": serializer.data,
             },
             status=status.HTTP_200_OK,
         )
@@ -36,22 +37,28 @@ class TaskStatusListCreateAPIView(ListCreateAPIView):
             except IntegrityError:
                 return Response(
                     data={
-                        "error": f"Task Status named '{serializer.data.get('name')}' already exists.",
+                        "message": f"Task Status named '{serializer.data.get('name')}' already exists.",
+                        "success": False,
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
             return Response(
                 data={
-                    "success": "Task Status has been successfully created.",
-                    "object": serializer.data,
+                    "message": "Task Status has been successfully created.",
+                    "success": True,
+                    "data": serializer.data,
                 },
                 status=status.HTTP_201_CREATED,
             )
 
         else:
             return Response(
-                data=serializer.errors,
+                data={
+                    "message": "Failed to create a new task status.",
+                    "success": False,
+                    "data": serializer.errors,
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -73,8 +80,9 @@ class TaskStatusRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
             return Response(
                 data={
-                    "success": f"Task Status with ID '{instance.pk}' has been successfully retrieved.",
-                    "object": serializer.data,
+                    "message": f"Task Status with ID '{instance.pk}' has been successfully retrieved.",
+                    "success": True,
+                    "data": serializer.data,
                 },
                 status=status.HTTP_200_OK,
             )
@@ -82,7 +90,8 @@ class TaskStatusRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
         except NotFound:
             return Response(
                 data={
-                    "error": f"Task Status with ID '{kwargs.get('pk')} does not exists.",
+                    "message": f"Task Status with ID '{kwargs.get('pk')} does not exists.",
+                    "success": False,
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -101,22 +110,28 @@ class TaskStatusRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
                 return Response(
                     data={
-                        "success": f"Task Status with ID '{instance.pk}' has been successfully updated.",
-                        "object": serializer.data,
+                        "message": f"Task Status with ID '{instance.pk}' has been successfully updated.",
+                        "success": True,
+                        "data": serializer.data,
                     },
                     status=status.HTTP_200_OK,
                 )
 
             else:
                 return Response(
-                    data=serializer.errors,
+                    data={
+                        "message": "Failed to create a new task status.",
+                        "success": False,
+                        "data": serializer.data,
+                    },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
         except NotFound:
             return Response(
                 data={
-                    "error": f"Task Status with ID '{kwargs.get('pk')} does not exists.",
+                    "message": f"Task Status with ID '{kwargs.get('pk')} does not exists.",
+                    "success": False,
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -128,7 +143,8 @@ class TaskStatusRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
             return Response(
                 data={
-                    "success": f"Task Status with ID '{kwargs.get('pk')}' has been successfully deleted.",
+                    "message": f"Task Status with ID '{kwargs.get('pk')}' has been successfully deleted.",
+                    "success": True,
                 },
                 status=status.HTTP_204_NO_CONTENT,
             )
@@ -136,7 +152,8 @@ class TaskStatusRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
         except TaskStatus.DoesNotExist:
             return Response(
                 data={
-                    "error": f"Task Status with ID '{kwargs.get('pk')} does not exists.",
+                    "message": f"Task Status with ID '{kwargs.get('pk')} does not exists.",
+                    "success": False,
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -144,7 +161,8 @@ class TaskStatusRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
         except Exception as e:
             return Response(
                 data={
-                    "error": str(e),
+                    "message": str(e),
+                    "success": False,
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
@@ -163,8 +181,9 @@ class TaskPriorityListCreateAPIView(ListCreateAPIView):
 
         return Response(
             data={
-                "success": "Task Priorities retrieved successfully.",
-                "objects": serializer.data,
+                "message": "Task Priorities retrieved successfully.",
+                "success": True,
+                "data": serializer.data,
             },
             status=status.HTTP_200_OK,
         )
@@ -179,22 +198,28 @@ class TaskPriorityListCreateAPIView(ListCreateAPIView):
             except IntegrityError:
                 return Response(
                     data={
-                        "error": f"Task Priority named '{serializer.data.get('name')}' already exists.",
+                        "message": f"Task Priority named '{serializer.data.get('name')}' already exists.",
+                        "success": False,
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
             return Response(
                 data={
-                    "success": "Task Priority has been successfully created.",
-                    "object": serializer.data,
+                    "message": "Task Priority has been successfully created.",
+                    "success": True,
+                    "data": serializer.data,
                 },
                 status=status.HTTP_201_CREATED,
             )
 
         else:
             return Response(
-                data=serializer.errors,
+                data={
+                    "message": "Failed to create a new task priority.",
+                    "success": False,
+                    "data": serializer.errors,
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -216,8 +241,9 @@ class TaskPriorityRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
             return Response(
                 data={
-                    "success": f"Task Priority with ID '{instance.pk}' has been successfully retrieved.",
-                    "object": serializer.data,
+                    "message": f"Task Priority with ID '{instance.pk}' has been successfully retrieved.",
+                    "success": True,
+                    "data": serializer.data,
                 },
                 status=status.HTTP_200_OK,
             )
@@ -225,7 +251,8 @@ class TaskPriorityRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
         except NotFound:
             return Response(
                 data={
-                    "error": f"Task Priority with ID '{kwargs.get('pk')} does not exists.",
+                    "message": f"Task Priority with ID '{kwargs.get('pk')} does not exists.",
+                    "success": False,
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -244,22 +271,28 @@ class TaskPriorityRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
                 return Response(
                     data={
-                        "success": f"Task Priority with ID '{instance.pk}' has been successfully updated.",
-                        "object": serializer.data,
+                        "message": f"Task Priority with ID '{instance.pk}' has been successfully updated.",
+                        "success": True,
+                        "data": serializer.data,
                     },
                     status=status.HTTP_200_OK,
                 )
 
             else:
                 return Response(
-                    data=serializer.errors,
+                    data={
+                        "message": "Failed to create a new task priority.",
+                        "success": False,
+                        "data": serializer.errors,
+                    },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
         except NotFound:
             return Response(
                 data={
-                    "error": f"Task Priority with ID '{kwargs.get('pk')} does not exists.",
+                    "message": f"Task Priority with ID '{kwargs.get('pk')} does not exists.",
+                    "success": False,
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -271,7 +304,8 @@ class TaskPriorityRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
             return Response(
                 data={
-                    "success": f"Task Priority with ID '{kwargs.get('pk')}' has been successfully deleted.",
+                    "message": f"Task Priority with ID '{kwargs.get('pk')}' has been successfully deleted.",
+                    "success": True,
                 },
                 status=status.HTTP_204_NO_CONTENT,
             )
@@ -279,7 +313,8 @@ class TaskPriorityRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
         except TaskPriority.DoesNotExist:
             return Response(
                 data={
-                    "error": f"Task Priority with ID '{kwargs.get('pk')} does not exists.",
+                    "message": f"Task Priority with ID '{kwargs.get('pk')} does not exists.",
+                    "success": False,
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -287,7 +322,8 @@ class TaskPriorityRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
         except Exception as e:
             return Response(
                 data={
-                    "error": str(e),
+                    "message": str(e),
+                    "success": False,
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
@@ -303,12 +339,12 @@ class TaskListCreateAPIView(ListCreateAPIView):
     def get(self, request, *args, **kwargs):
         objects = self.get_queryset()
         serializer = self.get_serializer(objects, many=True)
-        print(serializer.data)
 
         return Response(
             data={
-                "success": "Tasks retrieved successfully." if len(serializer.data) > 0 else "No tasks found.",
-                "objects": serializer.data,
+                "message": "Tasks retrieved successfully." if len(serializer.data) > 0 else "No tasks found.",
+                "success": True,
+                "data": serializer.data,
             },
             status=status.HTTP_200_OK,
         )
@@ -323,22 +359,28 @@ class TaskListCreateAPIView(ListCreateAPIView):
             except IntegrityError:
                 return Response(
                     data={
-                        "error": f"Task named '{serializer.data.get('title')}' already exists.",
+                        "message": f"Task named '{serializer.data.get('title')}' already exists.",
+                        "success": False,
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
             return Response(
                 data={
-                    "success": "Task has been successfully created.",
-                    "object": serializer.data,
+                    "message": "Task has been successfully created.",
+                    "success": True,
+                    "data": serializer.data,
                 },
                 status=status.HTTP_201_CREATED,
             )
 
         else:
             return Response(
-                data=serializer.errors,
+                data={
+                    "message": "Failed to create a new task.",
+                    "success": False,
+                    "data": serializer.errors,
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -360,8 +402,9 @@ class TaskRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
             return Response(
                 data={
-                    "success": f"Task with ID '{instance.pk}' has been successfully retrieved.",
-                    "object": serializer.data,
+                    "message": f"Task with ID '{instance.pk}' has been successfully retrieved.",
+                    "success": True,
+                    "data": serializer.data,
                 },
                 status=status.HTTP_200_OK,
             )
@@ -369,7 +412,8 @@ class TaskRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
         except NotFound:
             return Response(
                 data={
-                    "error": f"Task with ID '{kwargs.get('pk')} does not exists.",
+                    "message": f"Task with ID '{kwargs.get('pk')} does not exists.",
+                    "success": False,
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -388,22 +432,28 @@ class TaskRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
                 return Response(
                     data={
-                        "success": f"Task with ID '{instance.pk}' has been successfully updated.",
-                        "object": serializer.data,
+                        "message": f"Task with ID '{instance.pk}' has been successfully updated.",
+                        "success": True,
+                        "data": serializer.data,
                     },
                     status=status.HTTP_200_OK,
                 )
 
             else:
                 return Response(
-                    data=serializer.errors,
+                    data={
+                        "message": "Failed to create a new task.",
+                        "success": False,
+                        "data": serializer.errors,
+                    },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
         except NotFound:
             return Response(
                 data={
-                    "error": f"Task with ID '{kwargs.get('pk')} does not exists.",
+                    "message": f"Task with ID '{kwargs.get('pk')} does not exists.",
+                    "success": False,
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -415,7 +465,8 @@ class TaskRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
             return Response(
                 data={
-                    "success": f"Task with ID '{kwargs.get('pk')}' has been successfully deleted.",
+                    "message": f"Task with ID '{kwargs.get('pk')}' has been successfully deleted.",
+                    "success": True,
                 },
                 status=status.HTTP_204_NO_CONTENT,
             )
@@ -423,7 +474,8 @@ class TaskRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
         except TaskPriority.DoesNotExist:
             return Response(
                 data={
-                    "error": f"Task with ID '{kwargs.get('pk')} does not exists.",
+                    "message": f"Task with ID '{kwargs.get('pk')} does not exists.",
+                    "success": False,
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -431,7 +483,8 @@ class TaskRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
         except Exception as e:
             return Response(
                 data={
-                    "error": str(e),
+                    "message": str(e),
+                    "success": False,
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
