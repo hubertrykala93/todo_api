@@ -74,7 +74,7 @@ class TaskSerializer(serializers.ModelSerializer):
     status = serializers.SlugRelatedField(
         error_messages={
             "required": "Task Status is required.",
-            "does_not_exist": f"Task Status does not exists. Available task statuses are {', '.join([p for p in TaskStatus.objects.values_list('name', flat=True).distinct()])}.",
+            "does_not_exist": f"Task Status does not exists. Available task statuses are 'Pending', 'In Progress', 'Complete'.",
         },
         queryset=TaskStatus.objects.all(),
         slug_field="name",
@@ -93,7 +93,7 @@ class TaskSerializer(serializers.ModelSerializer):
     priority = serializers.SlugRelatedField(
         error_messages={
             "required": "Task Priority is required.",
-            "does_not_exist": f"Task Priority does not exists. Available task priorities are {', '.join([p for p in TaskPriority.objects.values_list('name', flat=True).distinct()])}.",
+            "does_not_exist": f"Task Priority does not exists. Available task priorities are 'High', 'Medium', 'Low'.",
         },
         queryset=TaskPriority.objects.all(),
         slug_field="name",
