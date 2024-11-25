@@ -27,15 +27,7 @@ psql -U postgres
 CREATE DATABASE todo_api;
 ```
 
-Configure database settings.
-
-DATABASE_NAME</br>
-DATABASE_USER</br>
-DATABASE_PASSWORD</br>
-DATABASE_HOST</br>
-DATABASE_PORT
-
-For example:
+Configure database settings. For example:
 
 ```bash
 DATABASES = {
