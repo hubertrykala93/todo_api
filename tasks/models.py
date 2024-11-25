@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.text import slugify
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class TaskStatus(models.Model):
@@ -57,12 +56,5 @@ class Task(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-
-        if not self.status:
-            try:
-                self.status = TaskStatus.objects.get(name="In Progress")
-
-            except ObjectDoesNotExist:
-                raise ValueError("Status 'In Progress' does not exists.")
 
         super(Task, self).save(*args, **kwargs)
