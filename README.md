@@ -29,7 +29,7 @@ CREATE DATABASE todo_api;
 
 Configure database settings. For example:
 
-```bash
+```
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
