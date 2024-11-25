@@ -1,6 +1,6 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from tasks.models import TaskStatus, TaskPriority
-from .serializers import TaskStatusSerializer, TaskPrioritySerializer
+from tasks.models import TaskStatus, TaskPriority, Task
+from .serializers import TaskStatusSerializer, TaskPrioritySerializer, TaskSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from django.db import IntegrityError
@@ -280,6 +280,150 @@ class TaskPriorityRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
             return Response(
                 data={
                     "error": f"Task Priority with ID '{kwargs.get('pk')} does not exists.",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        except Exception as e:
+            return Response(
+                data={
+                    "error": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+class TaskListCreateAPIView(ListCreateAPIView):
+    def get_queryset(self):
+        return Task.objects.all()
+
+    def get_serializer_class(self):
+        return TaskSerializer
+
+    def get(self, request, *args, **kwargs):
+        objects = self.get_queryset()
+        serializer = self.get_serializer(objects, many=True)
+        print(serializer.data)
+
+        return Response(
+            data={
+                "success": "Tasks retrieved successfully." if len(serializer.data) > 0 else "No tasks found.",
+                "objects": serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            try:
+                serializer.save()
+
+            except IntegrityError:
+                return Response(
+                    data={
+                        "error": f"Task named '{serializer.data.get('title')}' already exists.",
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            return Response(
+                data={
+                    "success": "Task has been successfully created.",
+                    "object": serializer.data,
+                },
+                status=status.HTTP_201_CREATED,
+            )
+
+        else:
+            return Response(
+                data=serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class TaskRetrieveUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
+    def get_queryset(self):
+        return Task.objects.all()
+
+    def get_serializer_class(self):
+        return TaskSerializer
+
+    def get(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+
+            serializer = self.get_serializer(
+                instance=instance,
+            )
+
+            return Response(
+                data={
+                    "success": f"Task with ID '{instance.pk}' has been successfully retrieved.",
+                    "object": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+
+        except NotFound:
+            return Response(
+                data={
+                    "error": f"Task with ID '{kwargs.get('pk')} does not exists.",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+    def patch(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+
+            serializer = self.get_serializer(
+                instance=instance,
+                data=request.data
+            )
+
+            if serializer.is_valid():
+                serializer.save()
+
+                return Response(
+                    data={
+                        "success": f"Task with ID '{instance.pk}' has been successfully updated.",
+                        "object": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+
+            else:
+                return Response(
+                    data=serializer.errors,
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        except NotFound:
+            return Response(
+                data={
+                    "error": f"Task with ID '{kwargs.get('pk')} does not exists.",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            instance.delete()
+
+            return Response(
+                data={
+                    "success": f"Task with ID '{kwargs.get('pk')}' has been successfully deleted.",
+                },
+                status=status.HTTP_204_NO_CONTENT,
+            )
+
+        except TaskPriority.DoesNotExist:
+            return Response(
+                data={
+                    "error": f"Task with ID '{kwargs.get('pk')} does not exists.",
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )

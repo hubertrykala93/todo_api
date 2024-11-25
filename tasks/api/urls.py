@@ -7,5 +7,7 @@ urlpatterns = [
          name="taskstatus-update-delete"),
     path("api/v1/taskpriorities", api_tasks_views.TaskPriorityListCreateAPIView.as_view(), name="taskpriorities"),
     path("api/v1/taskpriorities/<int:pk>", api_tasks_views.TaskPriorityRetrieveUpdateDeleteAPIView.as_view(),
-         name="taskpriority-update-delete")
+         name="taskpriority-update-delete"),
+    path("api/v1/tasks", api_tasks_views.TaskListCreateAPIView.as_view(), name="tasks"),
+    path("api/v1/tasks/<int:pk>", api_tasks_views.TaskRetrieveUpdateDeleteAPIView.as_view(), name="task-update-delete"),
 ]
