@@ -3,34 +3,31 @@
 Install Python 3.10 and clone the GitHub repository.
 
 ```bash
-$ git clone https://github.com/hubertrykala93/todo_api.git
-$ cd todo_api
+git clone https://github.com/hubertrykala93/todo_api.git
+cd todo_api
 ```
 
-Create a virtual environment to install dependencies in and activate it:
+Set up a virtual environment.
 
 ```bash
-$ python3.10 -m venv venv
-$ source venv/bin/activate
+python3.10 -m venv venv
+source venv/bin/activate
 ```
 
-Install the dependencies:
+Install dependencies:
 
 ```bash
-(venv)$ pip3 install -r requirements.txt
+(venv) pip3 install -r requirements.txt
 ```
 
-Create a new PostgreSQL database.
+Create a PostgreSQL database.
 
 ```bash
 psql -U postgres
-```
-
-```bash
 CREATE DATABASE todo_api;
 ```
 
-Set the data for your local PostgreSQL database in settings/settings.py.
+Configure database settings.
 
 DATABASE_NAME</br>
 DATABASE_USER</br>
@@ -38,23 +35,37 @@ DATABASE_PASSWORD</br>
 DATABASE_HOST</br>
 DATABASE_PORT
 
-Run migrations.
+For example:
 
 ```bash
-(venv)$ python3 manage.py migrate
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'todo_api',
+        'USER': 'your_username',
+        'PASSWORD': 'your_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 ```
 
-Import the data into PostgreSQL.
+Apply migrations.
 
 ```bash
-(venv)$ python3 manage.py loaddata data/taskstatuses.json
-(venv)$ python3 manage.py loaddata data/taskpriorities.json
+(venv) python3 manage.py makemigrations
+(venv) python3 manage.py migrate
 ```
 
-Run the project.
+Load initial data.
 
 ```bash
-(venv)$ python3 manage.py runserver
+(venv) python3 manage.py loaddata data/taskstatuses.json
+(venv) python3 manage.py loaddata data/taskpriorities.json
 ```
 
-And then navigate to ```http://127.0.0.1:8000``` or ```http://localhost:8000```.
+Run the development server.
+
+```bash
+(venv) python3 manage.py runserver
+```
